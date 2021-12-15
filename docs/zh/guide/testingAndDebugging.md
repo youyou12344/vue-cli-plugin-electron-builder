@@ -8,29 +8,35 @@ sidebarDepth: 2
 
 ### Visual Studio Code
 
-See the [VSCode debugging recipe](./recipes.md#debugging-with-vscode) for information on debugging the main and renderer process in [Visual Studio Code](https://code.visualstudio.com/).
+有关在 [Visual Studio Code](https://code.visualstudio.com/) 中调试主进程和渲染器进程的信息，请参阅 [VSCode 调试方法](./recipes.md#debugging-with-vscode) 。
 
-### Renderer Process (Main App)
 
-You can debug the renderer process using [Vue Devtools](https://github.com/vuejs/vue-devtools). Vue Devtools are automatically installed for you (powered by [electron-devtools-installer](https://github.com/MarshallOfSound/electron-devtools-installer)). You can also use the [Chrome debugger](https://developers.google.com/web/tools/chrome-devtools/javascript/).
+### 渲染器进程 (Main App)
 
-### Main Process (Background File)
+您可以使用 [Vue Devtools 调试渲染器进程](https://github.com/vuejs/vue-devtools) 。会为你自动安装 Vue Devtools（由[electron-devtools-installer](https://github.com/MarshallOfSound/electron-devtools-installer) 提供支持）。你还可以使用[Chrome 调试器](https://developers.google.com/web/tools/chrome-devtools/javascript/)。
 
-First, read [Electron's instructions](https://electronjs.org/docs/tutorial/debugging-main-process) for debugging the main process. Before launching Electron through your debugger, run `electron:serve` in debug mode with the `--debug` argument. This will prevent Electron from launching automatically and enable source map support. Have Electron target your output directory (`dist_electron` by default) by passing it as an argument (ie `electron --inspect=5858 dist_electron`).
 
-::: tip
-If you are testing with [Spectron](https://electronjs.org/spectron), make sure to set `process.env.IS_TEST` to `true`. This will prevent dev tools from being loaded which results in errors.
+### 主进程 (Background File)
+
+首先，阅读 [Electron 使用说明](https://electronjs.org/docs/tutorial/debugging-main-process) 中关于调试主进程的信息。在通过调试器启动 Electron 之前，在调试模式下执行 `electron:serve` 并带上 `--debug` 参数。这将阻止 Electron 自动启动并启用 source map 支持。通过将其作为参传递，让 Electron 定位您的输出目录（默认是 `dist_electron`）（即 `electron --inspect=5858 dist_electron`）。
+
+
+
+::: tip 提示
+如果您使用 [Spectron](https://electronjs.org/spectron) 进行测试，确保设置 `process.env.IS_TEST` 为 `true` 。这将防止加载开发工具而导致错误。
 :::
 
 ## 测试
 
-:::tip
-If you don't want to use Spectron, you can still use this function, just set `noSpectron` to `true`
+:::tip 提示
+如果你不想使用 Spectron ，你仍然可以使用这个功能，只需设置 `noSpectron` 为 `true`
 :::
 
-Before continuing, read about [Spectron](https://github.com/electron/spectron). This guide assumes basic knowledge about using Spectron.
+在继续之前，请阅读有关 [Spectron](https://github.com/electron/spectron) 的信息。 本指南假定您具备使用 Spectron 的基本知识。
 
-vue-cli-plugin-electron-builder exports a `testWithSpectron` function. This function will run `electron:serve`, but instead of launching electron, a new Spectron Application will be created and attached to the dev server. This can be used to run e2e tests with Spectron.
+vue-cli-plugin-electron-builder 导出一个 `testWithSpectron` 函数。这个函数将运行 `electron:serve` ，但不是启动 electron ，而是一个新的 Spectron 应用程序将被创建并附加到开发服务器。这可用于使用 Spectron 运行 e2e 测试。
+
+
 
 ```javascript
 // This example uses Jest, but any testing framework will work as well
@@ -56,9 +62,9 @@ test('a window is created', async () => {
 })
 ```
 
-Complete examples are available for [jest](https://github.com/nklayman/vue-cli-plugin-electron-builder/blob/master/generator/templates/tests-jest/tests/unit/electron.spec.js) and [mocha](https://github.com/nklayman/vue-cli-plugin-electron-builder/blob/master/generator/templates/tests-mocha/tests/unit/electron.spec.js). They will be automatically added with this plugin if you have jest or mocha already installed in your project.
+完整的示例可用于 [jest](https://github.com/nklayman/vue-cli-plugin-electron-builder/blob/master/generator/templates/tests-jest/tests/unit/electron.spec.js) 和 [mocha](https://github.com/nklayman/vue-cli-plugin-electron-builder/blob/master/generator/templates/tests-mocha/tests/unit/electron.spec.js) 。如果您的项目中已经安装了 jest 或 mocha，它们将随此插件自动添加。
 
-`testWithSpectron` takes a config argument. That config argument has properties as defined:
+`testWithSpectron` 接受一个配置参数。该配置参数具有定义的属性：
 
 ```javascript
 const spectron = require('spectron')
@@ -76,17 +82,19 @@ testWithSpectron(
 })
 ```
 
-:::warning
-Make sure to update spectron along with electron. See the [spectron version map](https://github.com/electron-userland/spectron#version-map) to determine what version of spectron you should be using.
+:::warning 警告
+确保 spectron 与 electron 一起更新。查看 [spectron 版本 map](https://github.com/electron-userland/spectron#version-map) 来确定您应该使用什么版本的 spectron 。
 :::
 
-### Regular Unit Tests Using Electron's Version of Node
+### 使用 Electron 版本的 Node 进行常规单元测试
 
-If you have a native dependency (like better-sqlite3) you might have problems running `jest` and get native dependency node version conflict errors.
 
+如果您有 native 依赖项（如 Better-sqlite3），您可能在运行 `jest` 时会遇到问题，并出现 native 依赖项 node 版本冲突错误。
+
+要解决此问题，请使用 electron 版本的 node 运行 Jest 测试。这有点 hacky，但这很有效
 To resolve this, run your Jest tests in the same version of node that electron uses. It's a bit hacky, but this works well:
 
 ```
 TEST_MODE=1 ELECTRON_RUN_AS_NODE=1 ./node_modules/electron/dist/electron ./node_modules/jest/bin/jest.js
 ```
-You can set this as `test:unit` in your package.json to use this by default instead of the default command. This is used by [Beekeeper Studio](https://github.com/beekeeper-studio/beekeeper-studio).
+您可以 `test:unit` 在 package.json 中将其设置为默认使用它而不是默认命令。这是 [Beekeeper Studio](https://github.com/beekeeper-studio/beekeeper-studio) 使用的。
