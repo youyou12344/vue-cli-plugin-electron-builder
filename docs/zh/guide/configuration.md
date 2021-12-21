@@ -28,7 +28,7 @@ module.exports = {
 }
 ```
 
-:::tip提示
+:::tip 提示
 传递给 `electron:build` 的所有 CLI 参数将转发给 electron-builder 。
 :::
 

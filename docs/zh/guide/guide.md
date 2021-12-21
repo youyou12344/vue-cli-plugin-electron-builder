@@ -176,7 +176,7 @@ module.exports = {
 ```
 
 
-## 它是如何工作的
+## 它是如何工作的 [须知]
 
 ### 构建命令
 
@@ -185,6 +185,10 @@ build 构建命令包含 3 个主要阶段：渲染构建、 main 主构建和 e
 1.  **渲染构建**: 这个阶段调用 `vue-cli-service build` 构建，使用一些自定义配置， 这样它就可以正常地与 electron 一起工作。 (渲染过程是你的 standard app.)
 2.  **主构建**: 这个阶段是 VCP-Electron-Builder 为主进程 (`src/background.js`) 打包 background 文件。
 3.  **Electron-builder 构建**: 此阶段使用 [electron-builder](https://www.electron.build) 将您的 Web 应用程序代码转换为由 [Electron](https://electronjs.org) 提供支持的桌面应用程序。
+
+译者：
+- *[1] 如果 vue app 内容没有变化，不会重新打包。直接进入下步。*
+- [ ] background.js 可以访问 VUE_APP_xxx 环境变量吗？
 
 ### 服务命令
 

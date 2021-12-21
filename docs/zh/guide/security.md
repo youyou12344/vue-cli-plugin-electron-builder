@@ -17,7 +17,7 @@ module.exports = {
 ```
 
 :::tip IPC Without Node Integration
-您仍然在不启用 `nodeIntegration`情况下，使用 [IPC](https://www.electronjs.org/docs/api/ipc-renderer)。 只需使用以下代码创建一个[预加载脚本](./guide.html#preload-files):
+您仍然可以在不启用 `nodeIntegration` (译者: 也不启用 `contextIsolation` ) 情况下，使用 [IPC](https://www.electronjs.org/docs/api/ipc-renderer)。 只需使用以下代码创建一个[预加载脚本](./guide.html#preload-files):
 
 ```js
 import { ipcRenderer } from 'electron'
@@ -44,7 +44,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     let validChannels = ['fromMain']
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
-      // 故意剥离事件，当它包含 `sender`
+      // 故意删除 event 参数，因为他包含 `sender` 方法
       ipcRenderer.on(channel, (event, ...args) => func(...args))
     }
   }
@@ -59,7 +59,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 
 ## 加载本地图像/资源
 
-如果启用了 WebSecurity ，您将无法从文件系统加载资源，即 `<img src="file:///path/to/some/image.png"/>`。 但是，您仍然可以从 `public` 文件夹加载图像和其他资源，请参阅 [处理静态资源](./guide.html#handling-static-assets)。如果您需要从公共文件夹外部加载资源，则必须禁用 WebSecurity 或使用自定义协议。 [强烈建议不要禁用 WebSecurity](https://www.electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)，因此您应该改为使用以下技术来加载本地资源并保持启用 WebSecurity。
+如果启用了 WebSecurity ，您将无法从文件系统加载资源，即 `<img src="file:///path/to/some/image.png"/>`。 但是，您仍然可以从 `public` 文件夹加载图像和其他资源，请参阅 [处理静态资源](./guide.html#处理静态资源)。如果您需要从公共文件夹外部加载资源，则必须禁用 WebSecurity 或使用自定义协议。 [强烈建议不要禁用 WebSecurity](https://www.electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)，因此您应该改为使用以下技术来加载本地资源并保持启用 WebSecurity。
 
 将以下内容添加到您的主进程文件 (默认是`background.(js|ts)`) 中:
 

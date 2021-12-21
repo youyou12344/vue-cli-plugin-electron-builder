@@ -317,6 +317,9 @@ Add `Electron: Main`, `Electron: Renderer`, and `Electron: All` debug configurat
 }
 ```
 
+译者: 要 `"type": "chrome"` 生效，需要安装 VS Code 扩展程序 `[Deprecated] Debugger for Chrome` (并重启 VS Code)
+
+
 ### 添加断点
 
 Add "red dot" [breakpoints](https://code.visualstudio.com/docs/editor/debugging#_breakpoints) by clicking VSCode's gutter in your Vue app or background file.
@@ -329,7 +332,7 @@ Run the `Electron: All` launch configuration. Execution should stop upon reachin
 Breakpoints will not be detected in your Vue app during the initial launch of Electron. Reload the window to stop on these breakpoints.
 :::
 
-## 多平台构建
+## (跨)多平台构建 [须知]
 
 > 为开发时使用的系统以外的系统平台，构建应用程序
 
