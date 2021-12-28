@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
+    "deploy-zh": "bash deploy.sh",
     "docs:deploy": "node ./deployDocs.js"
   },
   "keywords": [

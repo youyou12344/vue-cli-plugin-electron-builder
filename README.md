@@ -1,3 +1,5 @@
+[本项目](https://github.com/youyou12344/vue-cli-plugin-electron-builder) 从 https://github.com/nklayman/vue-cli-plugin-electron-builder 拷贝，添加了 中文版 翻译。
+
 # Vue CLI Plugin Electron Builder
 
 > Easily Build Your Vue.js App For Desktop With Electron
